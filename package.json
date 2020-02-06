@@ -1,0 +1,21 @@
+{
+	"name": "emma",
+	"version": "1.0.0",
+	"description": "truelayer client test",
+	"main": "index.js",
+	"repository": "https://github.com/XaviGriso/emma.git",
+	"author": "Saverio Grisorio",
+	"license": "MIT",
+	"devDependencies": {
+		"@types/node": "^13.7.0",
+		"nodemon": "^2.0.2",
+		"ts-node": "^8.6.2",
+		"typescript": "^3.7.5"
+	},
+	"scripts": {
+		"build": "tsc",
+		"build:watch": "tsc -w",
+		"start:dev": "nodemon",
+		"start": "npm run build && node build/index.js"
+	}
+}
