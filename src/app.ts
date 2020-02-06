@@ -1,4 +1,4 @@
 require('dotenv').config();
-const { sayHello } = require('./test');
+const { sayHello } = require('./hello');
 
 sayHello();

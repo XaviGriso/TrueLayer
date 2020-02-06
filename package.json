@@ -7,8 +7,11 @@
 	"author": "Saverio Grisorio",
 	"license": "MIT",
 	"devDependencies": {
+		"@types/jest": "^25.1.2",
 		"@types/node": "^13.7.0",
+		"jest": "^25.1.0",
 		"nodemon": "^2.0.2",
+		"ts-jest": "^25.2.0",
 		"ts-node": "^8.6.2",
 		"typescript": "^3.7.5"
 	},
@@ -16,7 +19,8 @@
 		"build": "tsc",
 		"build:watch": "tsc -w",
 		"start:dev": "node -r dotenv/config && nodemon",
-		"start": "npm run build && node build/app.js"
+		"start": "npm run build && node build/app.js",
+		"test": "jest"
 	},
 	"dependencies": {
 		"@types/dotenv": "^8.2.0",
