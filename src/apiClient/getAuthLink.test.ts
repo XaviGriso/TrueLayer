@@ -1,5 +1,5 @@
 import { getAuthLink } from './getAuthLink';
-import { Scopes } from './types';
+import { Scopes } from './shared/types';
 
 describe('getAuthLink', () => {
 	test('should not return the auth url with empty scopes', () => {
@@ -10,11 +10,12 @@ describe('getAuthLink', () => {
 		expect(
 			getAuthLink({
 				scopes: [Scopes.transactions],
+				auth_url: 'https://auth.truelayer.com',
 				client_id: 'piggybank',
 				redirect_uri: 'https://some.website.com:3030'
 			})
 		).toBe(
-			'https://auth.truelayer-sandbox.com/?response_type=code&client_id=piggybank&scope=transactions&redirect_uri=https://some.website.com:3030&providers=uk-ob-all%20uk-oauth-all%20uk-cs-mock'
+			'https://auth.truelayer.com/?response_type=code&client_id=piggybank&scope=transactions&redirect_uri=https://some.website.com:3030&providers=uk-ob-all%20uk-oauth-all%20uk-cs-mock'
 		);
 	});
 });

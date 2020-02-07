@@ -1,6 +1,6 @@
 import env from 'dotenv';
 import express from 'express';
-import { Scopes } from './apiClient/types';
+import { Scopes } from './apiClient/shared/types';
 import { getAuthLink } from './apiClient';
 
 env.config();

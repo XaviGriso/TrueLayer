@@ -1,11 +1,18 @@
-import { IAuthConfig } from './types';
+import { Scopes } from './shared/types';
+
+type AuthConfig = {
+	scopes: Scopes[];
+	auth_url?: string;
+	client_id?: string;
+	redirect_uri?: string;
+};
 
 export const getAuthLink = ({
 	scopes = [],
-	auth_url = 'https://auth.truelayer-sandbox.com',
+	auth_url = process.env.auth_url || '',
 	client_id = process.env.client_id || '',
 	redirect_uri = process.env.redirect_uri || ''
-}: IAuthConfig): string => {
+}: AuthConfig): string => {
 	if (!scopes.length) {
 		return '';
 	}
