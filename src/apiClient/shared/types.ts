@@ -3,12 +3,6 @@ export enum Scopes {
 	transactions = 'transactions'
 }
 
-export type RequestOptions = {
-	uri: string;
-	headers: { [key: string]: string };
-	form: { [key: string]: string };
-};
-
 export type TokenResponse = {
 	access_token: string;
 	refresh_token: string;

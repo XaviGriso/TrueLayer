@@ -4,11 +4,10 @@ import {
 } from './exchangeCodeWithToken';
 
 import axios from 'axios';
-import { AuthResponse, RequestOptions } from './shared/types';
+import { AuthResponse } from './shared/types';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
-let mockOptions: RequestOptions;
 let mockApiConfig: ExchangeCodeTokenConfig;
 
 describe('exchangeCodeWithToken', () => {
@@ -24,20 +23,6 @@ describe('exchangeCodeWithToken', () => {
 			return Promise.resolve(response);
 		});
 
-		mockOptions = {
-			uri: 'https://auth.truelayer.com/connect/token',
-			headers: {
-				'Content-Type': 'application/x-www-form-urlencoded'
-			},
-			form: {
-				grant_type: 'authorization_code',
-				client_id: 'piggybank',
-				client_secret: 'secret',
-				redirect_uri: 'https://some.website.com:3030',
-				code: 'code-123'
-			}
-		};
-
 		mockApiConfig = {
 			httpClient: mockedAxios,
 			redirect_uri: 'https://some.website.com:3030',
@@ -50,7 +35,17 @@ describe('exchangeCodeWithToken', () => {
 
 	test('should post the correct options to the {auth_url}/connect/token endpoint', async () => {
 		await exchangeCodeWithToken(mockApiConfig);
-		expect(mockedAxios.post).toHaveBeenCalledWith(mockOptions);
+		expect(mockedAxios.post).toHaveBeenCalledWith(
+			'https://auth.truelayer.com/connect/token',
+			{
+				grant_type: 'authorization_code',
+				client_id: 'piggybank',
+				client_secret: 'secret',
+				redirect_uri: 'https://some.website.com:3030',
+				code: 'code-123'
+			},
+			{ headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
+		);
 	});
 
 	test('should return the access and refresh tokens', async () => {
