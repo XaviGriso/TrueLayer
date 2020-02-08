@@ -1,8 +1,7 @@
 import env from 'dotenv';
 import express from 'express';
-import { Scopes, TokenResponse } from './apiClient/types';
+import { Scopes } from './apiClient/types';
 import client from './apiClient';
-import { ITransaction } from './apiClient/interfaces';
 import { authenticate } from './fn/authenticate';
 import { getAccounts } from './fn/getAccounts';
 import { getTransactions } from './fn/getTransactions';
