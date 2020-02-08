@@ -1,3 +1,9 @@
-export { getAuthLink } from './getAuthLink';
-export { exchangeCodeWithToken } from './exchangeCodeWithToken';
-export { get } from './get';
+import { getAuthLink } from './getAuthLink';
+import { exchangeCodeWithToken } from './exchangeCodeWithToken';
+import { get } from './get';
+
+export default {
+	getAuthLink,
+	exchangeCodeWithToken,
+	get
+};
