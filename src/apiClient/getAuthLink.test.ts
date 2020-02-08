@@ -1,5 +1,5 @@
 import { getAuthLink } from './getAuthLink';
-import { Scopes } from './shared/types';
+import { Scopes } from './types';
 
 describe('getAuthLink', () => {
 	test('should not return the auth url with empty scopes', () => {

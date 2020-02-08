@@ -4,7 +4,7 @@ import {
 } from './exchangeCodeWithToken';
 
 import axios from 'axios';
-import { AuthResponse } from './shared/types';
+import { AuthResponse } from './types';
 import qs from 'qs';
 
 jest.mock('axios');

@@ -1,5 +1,5 @@
-import { IHTTPClient } from './shared/interfaces';
-import { AuthResponse, TokenResponse } from './shared/types';
+import { IHTTPClient } from './interfaces';
+import { AuthResponse, TokenResponse } from './types';
 import qs from 'qs';
 import axios from 'axios';
 

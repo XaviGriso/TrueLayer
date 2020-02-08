@@ -1,4 +1,4 @@
-import { IApiCall } from './shared/interfaces';
+import { IApiCall } from './interfaces';
 import axios from 'axios';
 
 export const get = async <T>({

@@ -1,8 +1,8 @@
 import env from 'dotenv';
 import express from 'express';
-import { Scopes, TokenResponse } from './apiClient/shared/types';
+import { Scopes, TokenResponse } from './apiClient/types';
 import client from './apiClient';
-import { ITransaction, IAccount } from './apiClient/shared/interfaces';
+import { ITransaction, IAccount } from './apiClient/interfaces';
 
 env.config();
 const app = express();

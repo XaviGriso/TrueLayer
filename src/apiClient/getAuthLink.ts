@@ -1,4 +1,4 @@
-import { Scopes } from './shared/types';
+import { Scopes } from './types';
 
 type AuthConfig = {
 	scopes: Scopes[];
