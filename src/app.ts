@@ -7,26 +7,21 @@ import { getAuthLink, exchangeCodeWithToken } from './apiClient';
 env.config();
 const app = express();
 
+const scopes = [Scopes.info, Scopes.transactions];
 app.get('/', (req, res) => {
-	const authURL = getAuthLink({ scopes: [Scopes.transactions] });
+	const authURL = getAuthLink({ scopes });
 	res.redirect(authURL);
 });
 
 app.get('/callback', async (req, res) => {
-	const code = req.query.code as string;
-	let tokens: TokenResponse | null = null;
-
-	try {
-		tokens = await exchangeCodeWithToken({
-			httpClient: axios,
-			code
-		});
-	} catch (error) {
-		console.log('ERROR!');
-	}
+	const code = req.query.code;
+	const tokens = await exchangeCodeWithToken({
+		httpClient: axios,
+		code
+	});
 
 	res.set('Content-Type', 'text/plain');
-	res.send('Tokens: ' + JSON.stringify(tokens));
+	res.send(tokens);
 });
 
 app.listen(3000, () => console.log('App listening on port 3000...'));
