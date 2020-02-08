@@ -1,10 +1,11 @@
 import { IHTTPClient } from './shared/interfaces';
 import { AuthResponse, TokenResponse } from './shared/types';
 import qs from 'qs';
+import axios from 'axios';
 
 export type ExchangeCodeTokenConfig = {
-	httpClient: IHTTPClient;
 	code: string;
+	httpClient?: IHTTPClient;
 	redirect_uri?: string;
 	auth_url?: string;
 	client_id?: string;
@@ -12,8 +13,8 @@ export type ExchangeCodeTokenConfig = {
 };
 
 export const exchangeCodeWithToken = async ({
-	httpClient,
 	code,
+	httpClient = axios,
 	redirect_uri = process.env.redirect_uri || '',
 	auth_url = process.env.auth_url || '',
 	client_id = process.env.client_id || '',

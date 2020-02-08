@@ -1,4 +1,4 @@
-import { IApiCall, IResult } from './interfaces';
+import { IApiCall } from './interfaces';
 import axios from 'axios';
 
 export const call = async <T>({
@@ -6,7 +6,7 @@ export const call = async <T>({
 	path,
 	httpClient = axios,
 	api_url = process.env.api_url || ''
-}: IApiCall): Promise<IResult<T>> => {
+}: IApiCall): Promise<T[]> => {
 	try {
 		const { data } = await httpClient.get(`${api_url}${path}`, {
 			headers: { Authorization: `Bearer ${token}` }

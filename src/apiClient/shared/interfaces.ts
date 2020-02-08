@@ -3,10 +3,6 @@ export interface IHTTPClient {
 	post: any;
 }
 
-export interface IResult<T> {
-	results: T[];
-}
-
 export interface IApiCall {
 	token: string;
 	path: string;
