@@ -2,8 +2,7 @@ import axios from 'axios';
 import env from 'dotenv';
 import express from 'express';
 import { Scopes, TokenResponse } from './apiClient/shared/types';
-import { getAuthLink, exchangeCodeWithToken } from './apiClient';
-import { getAccounts } from './apiClient/getAccounts';
+import { getAuthLink, exchangeCodeWithToken, getAccounts } from './apiClient';
 
 env.config();
 const app = express();
