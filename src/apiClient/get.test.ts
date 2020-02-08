@@ -1,4 +1,4 @@
-import { call } from './call';
+import { get } from './get';
 import axios from 'axios';
 
 jest.mock('axios');
@@ -19,7 +19,7 @@ describe('call', () => {
 			return Promise.resolve(response);
 		});
 
-		await call({
+		await get({
 			httpClient: mockedAxios,
 			token: 'a-secret-token',
 			path: 'path',

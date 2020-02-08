@@ -1,7 +1,7 @@
 import { IApiCall } from './shared/interfaces';
 import axios from 'axios';
 
-export const call = async <T>({
+export const get = async <T>({
 	token,
 	path,
 	httpClient = axios,

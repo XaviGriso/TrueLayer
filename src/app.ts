@@ -1,7 +1,7 @@
 import env from 'dotenv';
 import express from 'express';
 import { Scopes, TokenResponse } from './apiClient/shared/types';
-import { call, getAuthLink, exchangeCodeWithToken } from './apiClient';
+import { get, getAuthLink, exchangeCodeWithToken } from './apiClient';
 import { ITransaction, IAccount } from './apiClient/shared/interfaces';
 
 env.config();
@@ -18,7 +18,7 @@ app.get('/callback', async (req, res) => {
 		code: req.query.code
 	});
 
-	const accounts = await call<IAccount>({
+	const accounts = await get<IAccount>({
 		token: tokens.access_token,
 		path: 'accounts'
 	});
@@ -26,7 +26,7 @@ app.get('/callback', async (req, res) => {
 	let transactions: ITransaction[] = [];
 	if (accounts) {
 		accounts.forEach(async ({ account_id }) => {
-			const accountTransactions = await call<ITransaction>({
+			const accountTransactions = await get<ITransaction>({
 				token: tokens.access_token,
 				path: `accounts/${account_id}/transactions`
 			});
