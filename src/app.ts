@@ -3,6 +3,7 @@ import express from 'express';
 import { Scopes, TokenResponse } from './apiClient/types';
 import client from './apiClient';
 import { ITransaction, IAccount } from './apiClient/interfaces';
+import { authenticate } from './fn/authenticate';
 
 env.config();
 const app = express();
@@ -14,9 +15,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/callback', async (req, res) => {
-	const tokens: TokenResponse = await client.exchangeCodeWithToken({
-		code: req.query.code
-	});
+	const tokens: TokenResponse = await authenticate(req.query.code, client);
 
 	const accounts = await client.get<IAccount>({
 		token: tokens.access_token,

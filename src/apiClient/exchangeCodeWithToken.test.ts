@@ -2,43 +2,38 @@ import {
 	exchangeCodeWithToken,
 	ExchangeCodeTokenConfig
 } from './exchangeCodeWithToken';
-
-import axios from 'axios';
 import { AuthResponse } from './types';
 import qs from 'qs';
 
-jest.mock('axios');
-const mockedAxios = axios as jest.Mocked<typeof axios>;
-let mockApiConfig: ExchangeCodeTokenConfig;
+const mockHttpClient = {
+	get: jest.fn(),
+	post: jest.fn(async () => {
+		const response = {
+			data: {
+				access_token: 'token',
+				expires_in: 1,
+				refresh_token: 'refresh-token',
+				token_type: 'token-type'
+			} as AuthResponse
+		};
+
+		return Promise.resolve(response);
+	})
+};
+
+const mockApiConfig: ExchangeCodeTokenConfig = {
+	httpClient: mockHttpClient,
+	redirect_uri: 'https://some.website.com:3030',
+	code: 'code-123',
+	auth_url: 'https://auth.truelayer.com',
+	client_id: 'piggybank',
+	client_secret: 'secret'
+};
 
 describe('exchangeCodeWithToken', () => {
-	beforeAll(() => {
-		mockedAxios.post.mockImplementation(async () => {
-			const response = {
-				data: {
-					access_token: 'token',
-					expires_in: 1,
-					refresh_token: 'refresh-token',
-					token_type: 'token-type'
-				} as AuthResponse
-			};
-
-			return Promise.resolve(response);
-		});
-
-		mockApiConfig = {
-			httpClient: mockedAxios,
-			redirect_uri: 'https://some.website.com:3030',
-			code: 'code-123',
-			auth_url: 'https://auth.truelayer.com',
-			client_id: 'piggybank',
-			client_secret: 'secret'
-		};
-	});
-
 	test('should post the correct options to the {auth_url}/connect/token endpoint', async () => {
 		await exchangeCodeWithToken(mockApiConfig);
-		expect(mockedAxios.post).toHaveBeenCalledWith(
+		expect(mockHttpClient.post).toHaveBeenCalledWith(
 			'https://auth.truelayer.com/connect/token',
 			qs.stringify({
 				grant_type: 'authorization_code',
@@ -60,7 +55,7 @@ describe('exchangeCodeWithToken', () => {
 	});
 
 	test('should catch errors', async () => {
-		mockedAxios.post.mockImplementation(async () =>
+		mockHttpClient.post = jest.fn(async () =>
 			Promise.reject({ message: 'Server Error' })
 		);
 		await exchangeCodeWithToken(mockApiConfig).catch(e => {

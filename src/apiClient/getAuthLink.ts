@@ -1,6 +1,6 @@
 import { Scopes } from './types';
 
-type AuthConfig = {
+export type AuthConfig = {
 	scopes: Scopes[];
 	auth_url?: string;
 	client_id?: string;
