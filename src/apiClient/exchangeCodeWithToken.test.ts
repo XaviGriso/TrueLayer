@@ -5,6 +5,7 @@ import {
 
 import axios from 'axios';
 import { AuthResponse } from './shared/types';
+import qs from 'qs';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
@@ -13,11 +14,13 @@ let mockApiConfig: ExchangeCodeTokenConfig;
 describe('exchangeCodeWithToken', () => {
 	beforeAll(() => {
 		mockedAxios.post.mockImplementation(async () => {
-			const response: AuthResponse = {
-				access_token: 'token',
-				expires_in: 1,
-				refresh_token: 'refresh-token',
-				token_type: 'token-type'
+			const response = {
+				data: {
+					access_token: 'token',
+					expires_in: 1,
+					refresh_token: 'refresh-token',
+					token_type: 'token-type'
+				} as AuthResponse
 			};
 
 			return Promise.resolve(response);
@@ -37,13 +40,13 @@ describe('exchangeCodeWithToken', () => {
 		await exchangeCodeWithToken(mockApiConfig);
 		expect(mockedAxios.post).toHaveBeenCalledWith(
 			'https://auth.truelayer.com/connect/token',
-			{
+			qs.stringify({
 				grant_type: 'authorization_code',
 				client_id: 'piggybank',
 				client_secret: 'secret',
 				redirect_uri: 'https://some.website.com:3030',
 				code: 'code-123'
-			},
+			}),
 			{ headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
 		);
 	});

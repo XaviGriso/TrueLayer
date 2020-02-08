@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
 
 app.get('/callback', async (req, res) => {
 	const code = req.query.code;
-	const tokens = await exchangeCodeWithToken({
+	const tokens: TokenResponse = await exchangeCodeWithToken({
 		httpClient: axios,
 		code
 	});
