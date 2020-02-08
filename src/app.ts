@@ -1,8 +1,7 @@
 import env from 'dotenv';
 import express from 'express';
 import { Scopes, TokenResponse } from './apiClient/shared/types';
-import { getAuthLink, exchangeCodeWithToken } from './apiClient';
-import { call } from './apiClient/shared/call';
+import { call, getAuthLink, exchangeCodeWithToken } from './apiClient';
 import { ITransaction, IAccount } from './apiClient/shared/interfaces';
 
 env.config();
