@@ -2,8 +2,9 @@ import env from 'dotenv';
 import express from 'express';
 import { Scopes, TokenResponse } from './apiClient/types';
 import client from './apiClient';
-import { ITransaction, IAccount } from './apiClient/interfaces';
+import { ITransaction } from './apiClient/interfaces';
 import { authenticate } from './fn/authenticate';
+import { getAccounts } from './fn/getAccounts';
 
 env.config();
 const app = express();
@@ -15,12 +16,8 @@ app.get('/', (req, res) => {
 });
 
 app.get('/callback', async (req, res) => {
-	const tokens: TokenResponse = await authenticate(req.query.code, client);
-
-	const accounts = await client.get<IAccount>({
-		token: tokens.access_token,
-		path: 'accounts'
-	});
+	const tokens: TokenResponse = await authenticate(req.query.code);
+	const accounts = await getAccounts(tokens.access_token);
 
 	let transactions: ITransaction[] = [];
 	if (accounts) {
