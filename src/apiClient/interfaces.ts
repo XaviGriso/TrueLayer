@@ -44,3 +44,8 @@ export interface ITransaction {
 	transaction_type: string;
 	transaction_category: string;
 }
+
+export interface IAccountTransactions {
+	account_id: string;
+	transactions: ITransaction[];
+}

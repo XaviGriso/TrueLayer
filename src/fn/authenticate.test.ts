@@ -1,5 +1,5 @@
 import { authenticate } from './authenticate';
-import client, { IClient } from '../apiClient';
+import client from '../apiClient';
 import { TokenResponse } from '../apiClient/types';
 
 jest.mock('../apiClient');
