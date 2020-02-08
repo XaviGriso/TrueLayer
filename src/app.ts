@@ -17,12 +17,12 @@ app.get('/', (req, res) => {
 });
 
 app.get('/callback', async (req, res) => {
-	const tokens: TokenResponse = await authenticate(req.query.code);
+	const tokens = await authenticate(req.query.code);
 	const accounts = await getAccounts(tokens.access_token);
 	const transactions = await getTransactions(tokens.access_token, accounts);
 
 	res.set('Content-Type', 'text/plain');
-	res.send(tokens);
+	res.send(transactions);
 });
 
 app.listen(3000, () => console.log('App listening on port 3000...'));
