@@ -22,7 +22,6 @@ app.get('/callback', async (req, res) => {
 	});
 
 	const accounts = await getAccounts({
-		httpClient: axios,
 		token: tokens.access_token,
 		path: 'accounts'
 	});

@@ -8,9 +8,9 @@ export interface IResult<T> {
 }
 
 export interface IApiCall {
-	httpClient: IHTTPClient;
 	token: string;
 	path: string;
+	httpClient?: IHTTPClient;
 	api_url?: string;
 }
 

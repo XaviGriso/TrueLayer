@@ -1,9 +1,10 @@
 import { IApiCall, IResult } from './interfaces';
+import axios from 'axios';
 
 export const call = async <T>({
-	httpClient,
 	token,
 	path,
+	httpClient = axios,
 	api_url = process.env.api_url || ''
 }: IApiCall): Promise<IResult<T>> => {
 	try {

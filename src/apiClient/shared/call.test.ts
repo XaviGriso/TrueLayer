@@ -23,9 +23,9 @@ describe('call', () => {
 			httpClient: mockedAxios,
 			token: 'a-secret-token',
 			path: 'path',
-			api_url: 'https://api.url'
+			api_url: 'https://api.url/v1/'
 		});
-		expect(mockedAxios.get).toHaveBeenCalledWith('https://api.url/path', {
+		expect(mockedAxios.get).toHaveBeenCalledWith('https://api.url/v1/path', {
 			headers: { Authorization: 'Bearer a-secret-token' }
 		});
 	});
