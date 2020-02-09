@@ -23,7 +23,7 @@ app.get('/callback', async (req, res) => {
 	const transactions = await getTransactions(tokens.access_token, accounts);
 
 	res.set('Content-Type', 'text/plain');
-	res.send(transactions);
+	res.send('Data fetched correctly');
 });
 
 app.listen(3000, () => console.log('App listening on port 3000...'));

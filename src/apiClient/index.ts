@@ -5,7 +5,7 @@ import {
 } from './exchangeCodeWithToken';
 import { get } from './get';
 import { TokenResponse } from './types';
-import { IApiCall } from './interfaces';
+import { IApiCall } from '../interfaces/network';
 
 export interface IClient {
 	getAuthLink: (config: AuthConfig) => string;

@@ -1,6 +1,6 @@
 import { getInfo } from './getInfo';
 import client from '../apiClient';
-import { IInfo } from '../apiClient/interfaces';
+import { IInfo } from '../interfaces/data';
 
 jest.mock('../apiClient');
 

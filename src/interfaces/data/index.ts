@@ -1,15 +1,3 @@
-export interface IHTTPClient {
-	get: any;
-	post: any;
-}
-
-export interface IApiCall {
-	token: string;
-	path: string;
-	httpClient?: IHTTPClient;
-	api_url?: string;
-}
-
 export interface IAccount {
 	account_id: string;
 	account_number: IAccountNumber;
@@ -48,6 +36,10 @@ export interface ITransaction {
 export interface IAccountTransactions {
 	account_id: string;
 	transactions: ITransaction[];
+}
+
+export interface IUser extends IInfo {
+	id: number;
 }
 
 export interface IInfo {

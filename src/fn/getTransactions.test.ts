@@ -1,6 +1,6 @@
 import { getTransactions } from './getTransactions';
 import client from '../apiClient';
-import { ITransaction, IAccount } from '../apiClient/interfaces';
+import { ITransaction, IAccount } from '../interfaces/data';
 
 jest.mock('../apiClient');
 

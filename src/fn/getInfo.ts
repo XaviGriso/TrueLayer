@@ -1,5 +1,5 @@
 import apiClient, { IClient } from '../apiClient';
-import { IInfo } from '../apiClient/interfaces';
+import { IInfo } from '../interfaces/data';
 
 export const getInfo = async (
 	token: string,

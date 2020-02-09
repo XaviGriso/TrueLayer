@@ -1,4 +1,4 @@
-import { IHTTPClient } from './interfaces';
+import { IHTTPClient } from '../interfaces/network';
 import { AuthResponse, TokenResponse } from './types';
 import qs from 'qs';
 import axios from 'axios';

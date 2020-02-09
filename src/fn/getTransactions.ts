@@ -2,7 +2,7 @@ import {
 	ITransaction,
 	IAccount,
 	IAccountTransactions
-} from '../apiClient/interfaces';
+} from '../interfaces/data';
 import apiClient, { IClient } from '../apiClient';
 
 export const getTransactions = async (

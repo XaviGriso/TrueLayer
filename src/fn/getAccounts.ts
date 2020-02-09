@@ -1,5 +1,5 @@
 import apiClient, { IClient } from '../apiClient';
-import { IAccount } from '../apiClient/interfaces';
+import { IAccount } from '../interfaces/data';
 
 export const getAccounts = async (
 	token: string,
