@@ -14,7 +14,8 @@ describe('getTransactions', () => {
 		timestamp: 'timestamp',
 		transaction_category: 'category',
 		transaction_id: '1',
-		transaction_type: 'type'
+		transaction_type: 'type',
+		transaction_classification: []
 	};
 
 	mockClient.get.mockImplementation(async () =>

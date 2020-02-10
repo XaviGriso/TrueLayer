@@ -27,10 +27,11 @@ export interface ITransaction {
 	currency: string;
 	description: string;
 	transaction_id: string;
-	meta: object;
 	timestamp: string;
 	transaction_type: string;
 	transaction_category: string;
+	meta: object;
+	transaction_classification: string[];
 }
 
 export interface IAccountTransactions {
