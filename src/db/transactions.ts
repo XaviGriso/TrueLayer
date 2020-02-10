@@ -45,3 +45,30 @@ export const setUserTransactions = async (
 	}
 	return affectedRows;
 };
+
+export const getUserTransactions = async (
+	user_id: number,
+	dbClient = db
+): Promise<IAccountTransactions[]> => {
+	const userTransactions = await dbClient('user_transactions')
+		.where('user_id', user_id)
+		.orderBy('account_id');
+
+	let last_account = '';
+	const accountTransactions: IAccountTransactions[] = [];
+	userTransactions.forEach(({ account_id, ...rest }) => {
+		if (account_id !== last_account) {
+			last_account = account_id;
+			accountTransactions.push({
+				account_id,
+				transactions: [{ ...rest }]
+			});
+		} else {
+			accountTransactions[accountTransactions.length - 1].transactions.push({
+				...rest
+			});
+		}
+	});
+
+	return accountTransactions;
+};

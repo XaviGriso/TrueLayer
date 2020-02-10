@@ -7,7 +7,7 @@ import { getAccounts } from './fn/getAccounts';
 import { getTransactions } from './fn/getTransactions';
 import { getInfo } from './fn/getInfo';
 import { setUser } from './db/users';
-import { setUserTransactions } from './db/transactions';
+import { setUserTransactions, getUserTransactions } from './db/transactions';
 
 env.config();
 const app = express();
@@ -27,8 +27,18 @@ app.get('/callback', async (req, res) => {
 	const userId = await setUser(userInfo);
 	await setUserTransactions(userId, transactions);
 
-	res.set('Content-Type', 'text/plain');
-	res.send('Data fetched correctly');
+	const response = `<div>
+	    <a href='/transactions/${userId}'>Get the stored transactions</a>
+	</div>`;
+
+	res.set('Content-Type', 'text/html');
+	res.send(response);
+});
+
+app.get('/transactions/:user_id', async (req, res) => {
+	const userId: number = +(req.params.user_id || 0);
+	res.setHeader('Content-Type', 'application/json');
+	res.send(JSON.stringify(await getUserTransactions(userId)));
 });
 
 app.listen(3000, () => console.log('App listening on port 3000...'));
