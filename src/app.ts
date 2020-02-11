@@ -8,6 +8,8 @@ import { getTransactions } from './fn/getTransactions';
 import { getInfo } from './fn/getInfo';
 import { setUser, getUserById } from './db/users';
 import { setUserTransactions, getUserTransactions } from './db/transactions';
+import { IApiResponse } from './interfaces/network';
+import { IInfo, IAccount } from './interfaces/data';
 
 env.config();
 const app = express();
@@ -18,27 +20,36 @@ app.get('/', (req, res) => {
 	res.redirect(authURL);
 });
 
+const apiDataResult = <T>(result: IApiResponse<{ results: any }>): T => {
+	const { data } = result;
+	return data?.results;
+};
+
+const getAndStoreUserData = async (
+	access_token: string
+): Promise<number | undefined> => {
+	const [userInfo] = apiDataResult<IInfo[]>(await getInfo(access_token));
+	const accounts = apiDataResult<IAccount[]>(await getAccounts(access_token));
+	const transactions = await getTransactions(access_token, accounts);
+
+	if (userInfo && transactions) {
+		const userId = await setUser(userInfo, access_token);
+		await setUserTransactions(userId, transactions);
+		return userId;
+	}
+};
+
 app.get('/callback', async (req, res) => {
 	const access_token = await authenticate(req.query.code);
 
 	let response;
 	if (access_token) {
-		const userInfo = await getInfo(access_token);
-		const accounts = await getAccounts(access_token);
-		const transactions = await getTransactions(access_token, accounts);
-
-		if (userInfo && transactions) {
-			const userId = await setUser(userInfo, access_token);
-			await setUserTransactions(userId, transactions);
-
-			response = `<div>
-		        <a href='/transactions/${userId}'>Get the stored transactions</a>
-		        <br />
-		        <br />
-		        <a href='/debug/${userId}'>Debug the user</a>
-		    </div>`;
+		const userId = await getAndStoreUserData(access_token);
+		if (userId) {
+			response = `<div><a href='/transactions/${userId}'>Get the stored transactions</a><br /><br />
+		        <a href='/debug/${userId}'>Debug the user</a></div>`;
 		} else {
-			response = '<span>Error retrieving user data. Please try again</span>';
+			response = '<span>Error fetching user data. Please try again</span>';
 		}
 	} else {
 		response = '<span>Error authenticating the user. Please try again</span>';
@@ -59,8 +70,8 @@ app.get('/debug/:user_id', async (req, res) => {
 	const [user] = await getUserById(userId);
 
 	const { token: access_token } = user;
-	const userInfo = await getInfo(access_token);
-	const accounts = await getAccounts(access_token);
+	const [userInfo] = apiDataResult<IInfo[]>(await getInfo(access_token));
+	const accounts = apiDataResult<IAccount[]>(await getAccounts(access_token));
 	const transactions = await getTransactions(access_token, accounts);
 
 	const testResponse = {

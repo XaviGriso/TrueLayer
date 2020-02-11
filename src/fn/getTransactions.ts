@@ -4,21 +4,33 @@ import {
 	IAccountTransactions
 } from '../interfaces/data';
 import apiClient, { IClient } from '../apiClient';
+import { IApiResponse } from '../interfaces/network';
 
-const getAccountTransactions = (
+type TransactionsResult = {
+	results: ITransaction[];
+};
+
+export const getAccountTransactions = (
 	account_id: string,
 	token: string,
 	client: IClient = apiClient
-) =>
+): Promise<IApiResponse<TransactionsResult>> =>
 	client
-		.get<{
-			results: ITransaction[];
-		}>({
+		.get<TransactionsResult>({
 			token,
 			path: `accounts/${account_id}/transactions`
 		})
-		.then(response => response.data?.results || [])
+		.then(response => response || [])
 		.catch(e => e);
+
+const accountTransactionsData = async (
+	account_id: string,
+	token: string,
+	client: IClient = apiClient
+): Promise<ITransaction[]> => {
+	const { data } = await getAccountTransactions(account_id, token, client);
+	return data?.results || [];
+};
 
 export const getTransactions = async (
 	token: string,
@@ -30,7 +42,7 @@ export const getTransactions = async (
 			async ({ account_id }) =>
 				({
 					account_id,
-					transactions: await getAccountTransactions(account_id, token, client)
+					transactions: await accountTransactionsData(account_id, token, client)
 				} as IAccountTransactions)
 		)
 	);

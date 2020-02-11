@@ -1,16 +1,19 @@
 import apiClient, { IClient } from '../apiClient';
 import { IInfo } from '../interfaces/data';
+import { IApiResponse } from '../interfaces/network';
+
+type InfoResult = {
+	results: IInfo[];
+};
 
 export const getInfo = (
 	token: string,
 	client: IClient = apiClient
-): Promise<IInfo | undefined> =>
+): Promise<IApiResponse<InfoResult>> =>
 	client
-		.get<{
-			results: IInfo[];
-		}>({
+		.get<InfoResult>({
 			token,
 			path: 'info'
 		})
-		.then(response => response.data?.results[0])
+		.then(response => response)
 		.catch(e => e);

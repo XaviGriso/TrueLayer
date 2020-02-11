@@ -33,6 +33,8 @@ describe('getAccounts', () => {
 
 	test('should return an array of accounts', async () => {
 		const accounts = await getAccounts('token', mockClient);
-		expect(accounts).toEqual([mockAccount]);
+		expect(accounts).toEqual({
+			data: { results: [mockAccount] }
+		});
 	});
 });

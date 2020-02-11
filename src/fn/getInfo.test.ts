@@ -21,6 +21,10 @@ describe('getAccounts', () => {
 
 	test('should return an array of user info', async () => {
 		const info = await getInfo('token', mockClient);
-		expect(info).toEqual(mockUserInfo);
+		expect(info).toEqual({
+			data: {
+				results: [mockUserInfo]
+			}
+		});
 	});
 });
