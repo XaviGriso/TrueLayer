@@ -1,5 +1,4 @@
 import apiClient, { IClient } from '../apiClient';
-import { IAuthResponse } from '../interfaces/network';
 
 export const authenticate = async (
 	code: string,

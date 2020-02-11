@@ -10,7 +10,6 @@ import { setUser, getUserById } from './db/users';
 import { setUserTransactions, getUserTransactions } from './db/transactions';
 import { IApiResponse } from './interfaces/network';
 import { IInfo, IAccount } from './interfaces/data';
-import { inspect } from 'util';
 import stringify from 'json-stringify-safe';
 
 env.config();
