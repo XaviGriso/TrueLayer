@@ -4,12 +4,14 @@ import { Scopes } from './apiClient/types';
 import client from './apiClient';
 import { authenticate } from './fn/authenticate';
 import { getAccounts } from './fn/getAccounts';
-import { getTransactions } from './fn/getTransactions';
+import { getTransactions, getAccountTransactions } from './fn/getTransactions';
 import { getInfo } from './fn/getInfo';
 import { setUser, getUserById } from './db/users';
 import { setUserTransactions, getUserTransactions } from './db/transactions';
 import { IApiResponse } from './interfaces/network';
 import { IInfo, IAccount } from './interfaces/data';
+import { inspect } from 'util';
+import stringify from 'json-stringify-safe';
 
 env.config();
 const app = express();
@@ -70,14 +72,21 @@ app.get('/debug/:user_id', async (req, res) => {
 	const [user] = await getUserById(userId);
 
 	const { token: access_token } = user;
-	const [userInfo] = apiDataResult<IInfo[]>(await getInfo(access_token));
-	const accounts = apiDataResult<IAccount[]>(await getAccounts(access_token));
-	const transactions = await getTransactions(access_token, accounts);
+	const userInfo = await getInfo(access_token);
+	const accounts = await getAccounts(access_token);
+
+	const accountsData = apiDataResult<IAccount[]>(accounts);
+	const transactions = await Promise.all(
+		accountsData.map(
+			async ({ account_id }) =>
+				await getAccountTransactions(account_id, access_token)
+		)
+	);
 
 	const testResponse = {
-		info: userInfo ? 'OK' : '---',
-		accounts: accounts.length,
-		transactions: transactions.length
+		info: stringify(userInfo),
+		accounts: stringify(accounts),
+		transactions: stringify(transactions)
 	};
 
 	res.setHeader('Content-Type', 'application/json');
