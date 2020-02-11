@@ -32,11 +32,10 @@ interface IApiResponse<T> {
 	error?: IApiError;
 }
 
-export interface ITokenResponse {
-	access_token: string;
-	expires_in: number;
-	refresh_token: string;
-	token_type: string;
-}
-
-export interface IAuthResponse extends IApiResponse<ITokenResponse> {}
+export interface IAuthResponse
+	extends IApiResponse<{
+		access_token: string;
+		expires_in: number;
+		refresh_token: string;
+		token_type: string;
+	}> {}
