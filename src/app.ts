@@ -19,12 +19,12 @@ app.get('/', (req, res) => {
 });
 
 app.get('/callback', async (req, res) => {
-	const tokens = await authenticate(req.query.code);
-	const [userInfo] = await getInfo(tokens.access_token);
-	const accounts = await getAccounts(tokens.access_token);
-	const transactions = await getTransactions(tokens.access_token, accounts);
+	const { access_token } = await authenticate(req.query.code);
+	const [userInfo] = await getInfo(access_token);
+	const accounts = await getAccounts(access_token);
+	const transactions = await getTransactions(access_token, accounts);
 
-	const userId = await setUser(userInfo);
+	const userId = await setUser(userInfo, access_token);
 	await setUserTransactions(userId, transactions);
 
 	const response = `<div>

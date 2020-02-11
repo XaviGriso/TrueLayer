@@ -1,17 +1,41 @@
 import mockDb from './mockDb';
-import { getUserByFullName, setUser } from './users';
+import { getUserById, getUserByFullName, setUser } from './users';
 
 describe('users', () => {
 	beforeAll(() => mockDb.tracker.install());
 
+	describe('getUserById', () => {
+		test('returns the user when existing', async () => {
+			mockDb.tracker.on('query', query => {
+				query.response([{ id: 1, full_name: 'John Doe', token: 'last-token' }]);
+			});
+
+			const user = await getUserById(1, mockDb.client);
+			expect(user).toEqual([
+				{ id: 1, full_name: 'John Doe', token: 'last-token' }
+			]);
+		});
+
+		test('returns [] when the user does not exist existing', async () => {
+			mockDb.tracker.on('query', query => {
+				query.response([]);
+			});
+
+			const user = await getUserById(1, mockDb.client);
+			expect(user).toEqual([]);
+		});
+	});
+
 	describe('getUserByFullName', () => {
 		test('returns the user when existing', async () => {
 			mockDb.tracker.on('query', query => {
-				query.response([{ id: 1, full_name: 'John Doe' }]);
+				query.response([{ id: 1, full_name: 'John Doe', token: 'last-token' }]);
 			});
 
 			const user = await getUserByFullName('John Doe', mockDb.client);
-			expect(user).toEqual([{ id: 1, full_name: 'John Doe' }]);
+			expect(user).toEqual([
+				{ id: 1, full_name: 'John Doe', token: 'last-token' }
+			]);
 		});
 
 		test('returns [] when the user does not exist existing', async () => {
@@ -29,7 +53,7 @@ describe('users', () => {
 			mockDb.tracker.on('query', query => {
 				query.response([{ id: 1, full_name: 'John Doe' }]);
 			});
-			await setUser({ full_name: 'Foo Bar' }, mockDb.client);
+			await setUser({ full_name: 'Foo Bar' }, 'token-new', mockDb.client);
 			const spyInsert = jest.spyOn(mockDb.client, 'insert');
 			expect(spyInsert).toHaveBeenCalledTimes(0);
 		});
@@ -38,9 +62,12 @@ describe('users', () => {
 			mockDb.tracker.on('query', query => {
 				query.response([]);
 			});
-			await setUser({ full_name: 'Foo Bar' }, mockDb.client);
+			await setUser({ full_name: 'Foo Bar' }, 'token', mockDb.client);
 			const spyInsert = jest.spyOn(mockDb.client, 'insert');
-			expect(spyInsert).toHaveBeenCalledWith({ full_name: 'Foo Bar' });
+			expect(spyInsert).toHaveBeenCalledWith({
+				full_name: 'Foo Bar',
+				token: 'token'
+			});
 		});
 	});
 

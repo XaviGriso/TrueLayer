@@ -41,6 +41,7 @@ export interface IAccountTransactions {
 
 export interface IUser extends IInfo {
 	id: number;
+	token: string;
 }
 
 export interface IInfo {

@@ -15,7 +15,8 @@ CREATE TABLE `users` (
   `date_of_birth` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `emails` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
   `phones` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `update_timestamp` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL
+  `update_timestamp` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `token` VARCHAR(2000) COLLATE utf8_unicode_ci DEFAULT NULL 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `user_transactions` (
