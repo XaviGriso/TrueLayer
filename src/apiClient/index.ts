@@ -4,14 +4,13 @@ import {
 	ExchangeCodeTokenConfig
 } from './exchangeCodeWithToken';
 import { get } from './get';
-import { TokenResponse } from './types';
-import { IApiCall } from '../interfaces/network';
+import { IApiCall, IAuthResponse } from '../interfaces/network';
 
 export interface IClient {
 	getAuthLink: (config: AuthConfig) => string;
 	exchangeCodeWithToken: (
 		config: ExchangeCodeTokenConfig
-	) => Promise<TokenResponse>;
+	) => Promise<IAuthResponse>;
 	get: <T>({ token, path, httpClient, api_url }: IApiCall) => Promise<T[]>;
 }
 

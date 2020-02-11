@@ -2,8 +2,8 @@ import {
 	exchangeCodeWithToken,
 	ExchangeCodeTokenConfig
 } from './exchangeCodeWithToken';
-import { AuthResponse } from './types';
 import qs from 'qs';
+import { IAuthResponse } from '../interfaces/network';
 
 const mockHttpClient = {
 	get: jest.fn(),
@@ -14,7 +14,7 @@ const mockHttpClient = {
 				expires_in: 1,
 				refresh_token: 'refresh-token',
 				token_type: 'token-type'
-			} as AuthResponse
+			} as IAuthResponse
 		};
 
 		return Promise.resolve(response);
@@ -49,8 +49,12 @@ describe('exchangeCodeWithToken', () => {
 	test('should return the access and refresh tokens', async () => {
 		const response = await exchangeCodeWithToken(mockApiConfig);
 		expect(response).toEqual({
-			access_token: 'token',
-			refresh_token: 'refresh-token'
+			data: {
+				access_token: 'token',
+				expires_in: 1,
+				refresh_token: 'refresh-token',
+				token_type: 'token-type'
+			}
 		});
 	});
 
@@ -59,7 +63,11 @@ describe('exchangeCodeWithToken', () => {
 			Promise.reject({ message: 'Server Error' })
 		);
 		await exchangeCodeWithToken(mockApiConfig).catch(e => {
-			expect(e).toEqual({ message: 'Server Error' });
+			expect(e).toMatchObject({
+				error: {
+					message: 'Server Error'
+				}
+			});
 		});
 	});
 });

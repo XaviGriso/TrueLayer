@@ -19,20 +19,26 @@ app.get('/', (req, res) => {
 });
 
 app.get('/callback', async (req, res) => {
-	const { access_token } = await authenticate(req.query.code);
-	const [userInfo] = await getInfo(access_token);
-	const accounts = await getAccounts(access_token);
-	const transactions = await getTransactions(access_token, accounts);
+	const access_token = await authenticate(req.query.code);
 
-	const userId = await setUser(userInfo, access_token);
-	await setUserTransactions(userId, transactions);
+	let response;
+	if (access_token) {
+		const [userInfo] = await getInfo(access_token);
+		const accounts = await getAccounts(access_token);
+		const transactions = await getTransactions(access_token, accounts);
 
-	const response = `<div>
-		<a href='/transactions/${userId}'>Get the stored transactions</a>
-		<br />
-		<br />
-		<a href='/debug/${userId}'>Debug the user</a>
-	</div>`;
+		const userId = await setUser(userInfo, access_token);
+		await setUserTransactions(userId, transactions);
+
+		response = `<div>
+		    <a href='/transactions/${userId}'>Get the stored transactions</a>
+		    <br />
+		    <br />
+		    <a href='/debug/${userId}'>Debug the user</a>
+	    </div>`;
+	} else {
+		response = '<span>Error authenticating the user. Please try again</span>';
+	}
 
 	res.set('Content-Type', 'text/html');
 	res.send(response);
