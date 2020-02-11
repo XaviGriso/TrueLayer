@@ -29,7 +29,8 @@ const apiDataResult = <T>(result: IApiResponse<{ results: any }>): T => {
 const getAndStoreUserData = async (
 	access_token: string
 ): Promise<number | undefined> => {
-	const [userInfo] = apiDataResult<IInfo[]>(await getInfo(access_token));
+	const userResponse = apiDataResult<IInfo[]>(await getInfo(access_token));
+	const userInfo = userResponse ? userResponse[0] : undefined;
 	const accounts = apiDataResult<IAccount[]>(await getAccounts(access_token));
 	const transactions = await getTransactions(access_token, accounts);
 
