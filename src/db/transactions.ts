@@ -32,16 +32,18 @@ export const setUserTransactions = async (
 
 	let affectedRows = 0;
 	for (let i = 0; i < records.length; i++) {
-		const ignore =
-			dbClient.client.config.client === 'sqlite3' ? 'or ignore' : 'ignore';
-		const insertIgnore = dbClient
-			.insert(records[i])
-			.into('user_transactions')
-			.toString()
-			.replace('insert', `insert ${ignore}`);
+		if (records[i].length) {
+			const ignore =
+				dbClient.client.config.client === 'sqlite3' ? 'or ignore' : 'ignore';
+			const insertIgnore = dbClient
+				.insert(records[i])
+				.into('user_transactions')
+				.toString()
+				.replace('insert', `insert ${ignore}`);
 
-		const [result] = await dbClient.raw(insertIgnore);
-		affectedRows += result ? result.affectedRows : 0;
+			const [result] = await dbClient.raw(insertIgnore);
+			affectedRows += result ? result.affectedRows : 0;
+		}
 	}
 	return affectedRows;
 };
