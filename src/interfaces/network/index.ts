@@ -21,7 +21,7 @@ export interface IApiError {
 	message: string;
 }
 
-interface IApiResponse<T> {
+export interface IApiResponse<T> {
 	data?: T;
 	responseStatus?: {
 		status: number;

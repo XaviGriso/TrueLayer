@@ -1,20 +1,16 @@
-import { IApiCall } from '../interfaces/network';
+import { IApiCall, IApiResponse, IAuthResponse } from '../interfaces/network';
 import axios from 'axios';
+import { ApiError } from './apiError';
 
-export const get = async <T>({
+export const get = <T>({
 	token,
 	path,
 	httpClient = axios,
 	api_url = process.env.api_url || ''
-}: IApiCall): Promise<T[]> => {
-	try {
-		const { data } = await httpClient.get(`${api_url}${path}`, {
+}: IApiCall): Promise<IApiResponse<T>> =>
+	httpClient
+		.get(`${api_url}${path}`, {
 			headers: { Authorization: `Bearer ${token}` }
-		});
-
-		return data.results;
-	} catch (error) {
-		console.log('Error calling the endpoint ', path, error);
-		throw error;
-	}
-};
+		})
+		.then((response: IAuthResponse) => response)
+		.catch((error: any) => Promise.reject(ApiError(error)));

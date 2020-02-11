@@ -1,6 +1,7 @@
 import { getTransactions } from './getTransactions';
 import client from '../apiClient';
 import { ITransaction, IAccount } from '../interfaces/data';
+import { IApiResponse } from '../interfaces/network';
 
 jest.mock('../apiClient');
 
@@ -18,9 +19,13 @@ describe('getTransactions', () => {
 		transaction_classification: []
 	};
 
-	mockClient.get.mockImplementation(async () =>
-		Promise.resolve([mockTransaction] as ITransaction[])
-	);
+	mockClient.get.mockImplementation(async () => {
+		return Promise.resolve({
+			data: {
+				results: [mockTransaction]
+			}
+		});
+	});
 
 	test('shold return transactions grouped by account', async () => {
 		const mockAccount: IAccount = {

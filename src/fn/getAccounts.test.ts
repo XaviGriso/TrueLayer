@@ -24,7 +24,11 @@ describe('getAccounts', () => {
 	};
 
 	mockClient.get.mockImplementation(async () =>
-		Promise.resolve([mockAccount] as IAccount[])
+		Promise.resolve({
+			data: {
+				results: [mockAccount]
+			}
+		})
 	);
 
 	test('should return an array of accounts', async () => {

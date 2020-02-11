@@ -12,11 +12,15 @@ describe('getAccounts', () => {
 	};
 
 	mockClient.get.mockImplementation(async () =>
-		Promise.resolve([mockUserInfo] as IInfo[])
+		Promise.resolve({
+			data: {
+				results: [mockUserInfo]
+			}
+		})
 	);
 
 	test('should return an array of user info', async () => {
 		const info = await getInfo('token', mockClient);
-		expect(info).toEqual([mockUserInfo]);
+		expect(info).toEqual(mockUserInfo);
 	});
 });

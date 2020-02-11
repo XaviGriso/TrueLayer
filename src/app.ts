@@ -23,19 +23,23 @@ app.get('/callback', async (req, res) => {
 
 	let response;
 	if (access_token) {
-		const [userInfo] = await getInfo(access_token);
+		const userInfo = await getInfo(access_token);
 		const accounts = await getAccounts(access_token);
 		const transactions = await getTransactions(access_token, accounts);
 
-		const userId = await setUser(userInfo, access_token);
-		await setUserTransactions(userId, transactions);
+		if (userInfo && transactions) {
+			const userId = await setUser(userInfo, access_token);
+			await setUserTransactions(userId, transactions);
 
-		response = `<div>
-		    <a href='/transactions/${userId}'>Get the stored transactions</a>
-		    <br />
-		    <br />
-		    <a href='/debug/${userId}'>Debug the user</a>
-	    </div>`;
+			response = `<div>
+		        <a href='/transactions/${userId}'>Get the stored transactions</a>
+		        <br />
+		        <br />
+		        <a href='/debug/${userId}'>Debug the user</a>
+		    </div>`;
+		} else {
+			response = '<span>Error retrieving user data. Please try again</span>';
+		}
 	} else {
 		response = '<span>Error authenticating the user. Please try again</span>';
 	}
@@ -55,7 +59,7 @@ app.get('/debug/:user_id', async (req, res) => {
 	const [user] = await getUserById(userId);
 
 	const { token: access_token } = user;
-	const [userInfo] = await getInfo(access_token);
+	const userInfo = await getInfo(access_token);
 	const accounts = await getAccounts(access_token);
 	const transactions = await getTransactions(access_token, accounts);
 
