@@ -43,8 +43,11 @@ This client has been developed against the TrueLayer API Sandbox. You can test i
 
 _Assumptions Notes_
 
+There is no master account creation, so the following is true
+
 - The only user with data that will allow the store of data is John Doe
 - Given the above, it will be possible to run the debug endpoint against that test user
+- All the API's John Doe test users (1 to 100) will return the same user data, so here we are testing with 1 user
 
 ### Data
 
@@ -55,4 +58,4 @@ For the sake of this test project best security practices are not in place, but 
 
 - protect the data behind a VPN
 - hash salt the sensible data
-- implement MFA for login
+- implement MFA to login
