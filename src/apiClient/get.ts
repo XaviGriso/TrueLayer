@@ -1,4 +1,4 @@
-import { IApiCall, IApiResponse, IAuthResponse } from '../interfaces/network';
+import { IApiCall, IApiResponse } from '../interfaces/network';
 import axios from 'axios';
 import { ApiError } from './apiError';
 
@@ -12,5 +12,5 @@ export const get = <T>({
 		.get(`${api_url}${path}`, {
 			headers: { Authorization: `Bearer ${token}` }
 		})
-		.then((response: IAuthResponse) => response)
+		.then((response: IApiResponse<T>) => response)
 		.catch((error: any) => Promise.reject(ApiError(error)));

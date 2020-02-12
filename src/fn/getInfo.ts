@@ -1,5 +1,5 @@
 import apiClient, { IClient } from '../apiClient';
-import { IInfo } from '../interfaces/data';
+import { IInfo } from '../interfaces/data/user';
 import { IApiResponse } from '../interfaces/network';
 
 type InfoResult = {

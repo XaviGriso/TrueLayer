@@ -23,12 +23,6 @@ export interface IApiError {
 
 export interface IApiResponse<T> {
 	data?: T;
-	responseStatus?: {
-		status: number;
-		statusText: string;
-		headers: object;
-		request: object;
-	};
 	error?: IApiError;
 }
 

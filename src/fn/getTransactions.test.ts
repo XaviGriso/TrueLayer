@@ -1,6 +1,8 @@
 import { getTransactions, getAccountTransactions } from './getTransactions';
 import client from '../apiClient';
-import { ITransaction, IAccount } from '../interfaces/data';
+import { IAccount } from '../interfaces/data/account';
+import { ITransaction } from '../interfaces/data/transactions';
+import { IApiError } from '../interfaces/network';
 
 jest.mock('../apiClient');
 const mockClient = client as jest.Mocked<typeof client>;
@@ -15,6 +17,7 @@ const mockTransaction: ITransaction = {
 	transaction_type: 'type',
 	transaction_classification: []
 };
+
 mockClient.get.mockImplementation(async () => {
 	return Promise.resolve({
 		data: {
@@ -62,6 +65,19 @@ describe('getAccountTransactions', () => {
 		);
 		expect(transactions).toEqual({
 			data: { results: [mockTransaction] }
+		});
+	});
+
+	test('should catch api errors', async () => {
+		mockClient.get.mockImplementation(async () =>
+			Promise.reject({ message: 'Server Error' } as IApiError)
+		);
+
+		await getAccountTransactions('account-1', 'token', mockClient).catch(e => {
+			expect(e).toEqual({
+				data: undefined,
+				error: { message: 'Server Error' }
+			});
 		});
 	});
 });

@@ -1,10 +1,10 @@
 import {
 	ITransaction,
-	IAccount,
 	IAccountTransactions
-} from '../interfaces/data';
+} from '../interfaces/data/transactions';
 import apiClient, { IClient } from '../apiClient';
 import { IApiResponse } from '../interfaces/network';
+import { IAccount } from '../interfaces/data/account';
 
 type TransactionsResult = {
 	results: ITransaction[];

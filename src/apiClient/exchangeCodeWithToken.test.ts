@@ -3,7 +3,7 @@ import {
 	ExchangeCodeTokenConfig
 } from './exchangeCodeWithToken';
 import qs from 'qs';
-import { IAuthResponse } from '../interfaces/network';
+import { IAuthResponse, IApiError } from '../interfaces/network';
 
 const mockHttpClient = {
 	get: jest.fn(),
@@ -33,6 +33,7 @@ const mockApiConfig: ExchangeCodeTokenConfig = {
 describe('exchangeCodeWithToken', () => {
 	test('should post the correct options to the {auth_url}/connect/token endpoint', async () => {
 		await exchangeCodeWithToken(mockApiConfig);
+
 		expect(mockHttpClient.post).toHaveBeenCalledWith(
 			'https://auth.truelayer.com/connect/token',
 			qs.stringify({
@@ -58,12 +59,13 @@ describe('exchangeCodeWithToken', () => {
 		});
 	});
 
-	test('should catch errors', async () => {
-		mockHttpClient.post = jest.fn(async () =>
-			Promise.reject({ message: 'Server Error' })
-		);
+	test('should catch api errors', async () => {
+		mockHttpClient.post = jest.fn(async () => {
+			const error: IApiError = { message: 'Server Error' };
+			return Promise.reject(error);
+		});
 		await exchangeCodeWithToken(mockApiConfig).catch(e => {
-			expect(e).toMatchObject({
+			expect(e).toEqual({
 				error: {
 					message: 'Server Error'
 				}

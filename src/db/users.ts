@@ -1,5 +1,5 @@
 import db from '.';
-import { IInfo, IUser } from '../interfaces/data';
+import { IInfo, IUser } from '../interfaces/data/user';
 
 export const getUserById = async (
 	id: number,

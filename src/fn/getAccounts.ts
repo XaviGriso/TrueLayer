@@ -1,5 +1,5 @@
 import apiClient, { IClient } from '../apiClient';
-import { IAccount } from '../interfaces/data';
+import { IAccount } from '../interfaces/data/account';
 import { IApiResponse } from '../interfaces/network';
 
 type AccountsResult = {

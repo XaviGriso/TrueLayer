@@ -9,8 +9,9 @@ import { getInfo } from './fn/getInfo';
 import { setUser, getUserById } from './db/users';
 import { setUserTransactions, getUserTransactions } from './db/transactions';
 import { IApiResponse } from './interfaces/network';
-import { IInfo, IAccount } from './interfaces/data';
+import { IInfo } from './interfaces/data/user';
 import stringify from 'json-stringify-safe';
+import { IAccount } from './interfaces/data/account';
 
 env.config();
 const app = express();

@@ -38,6 +38,6 @@
 		"start:dev": "nodemon",
 		"start": "npm run build && node build/app.js",
 		"test": "jest",
-		"test:watch": "jest --watchAll"
+		"test:watch": "jest --watchAll --runInBand --detectOpenHandles"
 	}
 }

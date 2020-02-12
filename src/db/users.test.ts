@@ -16,7 +16,7 @@ describe('users', () => {
 			]);
 		});
 
-		test('returns [] when the user does not exist existing', async () => {
+		test('returns [] when the user does not exist', async () => {
 			mockDb.tracker.on('query', query => {
 				query.response([]);
 			});
@@ -38,7 +38,7 @@ describe('users', () => {
 			]);
 		});
 
-		test('returns [] when the user does not exist existing', async () => {
+		test('returns [] when the user does not exist', async () => {
 			mockDb.tracker.on('query', query => {
 				query.response([]);
 			});

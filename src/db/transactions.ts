@@ -1,5 +1,5 @@
 import db from '.';
-import { IAccountTransactions } from '../interfaces/data';
+import { IAccountTransactions } from '../interfaces/data/transactions';
 
 export const setUserTransactions = async (
 	user_id: number,
@@ -48,16 +48,12 @@ export const setUserTransactions = async (
 	return affectedRows;
 };
 
-export const getUserTransactions = async (
-	user_id: number,
-	dbClient = db
-): Promise<IAccountTransactions[]> => {
-	const userTransactions = await dbClient('user_transactions')
-		.where('user_id', user_id)
-		.orderBy('account_id');
-
+const groupTransactionsByAccount = (
+	userTransactions: any[]
+): IAccountTransactions[] => {
 	let last_account = '';
 	const accountTransactions: IAccountTransactions[] = [];
+
 	userTransactions.forEach(({ account_id, ...rest }) => {
 		if (account_id !== last_account) {
 			last_account = account_id;
@@ -74,3 +70,13 @@ export const getUserTransactions = async (
 
 	return accountTransactions;
 };
+
+export const getUserTransactions = async (
+	user_id: number,
+	dbClient = db
+): Promise<IAccountTransactions[]> =>
+	groupTransactionsByAccount(
+		await dbClient('user_transactions')
+			.where('user_id', user_id)
+			.orderBy('account_id')
+	);
