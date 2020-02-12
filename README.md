@@ -32,6 +32,7 @@ To start the app:
 
 - `yarn start:dev` or `npm run start:dev` to run the app in dev mode
 - `yarn start` or `npm run start` to build and run a production build
+- connect to `localhost:3000` to get started
 
 To build the app:
 
