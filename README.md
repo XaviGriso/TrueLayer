@@ -1,8 +1,8 @@
-# Emma Test App
+# TrueLayer Test App
 
 ## Intro
 
-Small project to mock one of Emma's core features: connect to a bank account and surface insights about the spending.
+Small project to connect to a mock bank account via the TrueLayer API and surface insights about the spending.
 This small backend, implements the following:
 
 - User authentication flow with TrueLayer

@@ -1,9 +1,9 @@
 {
-	"name": "emma",
+	"name": "TrueLayer",
 	"version": "1.0.0",
 	"description": "truelayer client test",
 	"main": "app.js",
-	"repository": "https://github.com/XaviGriso/emma.git",
+	"repository": "https://github.com/XaviGriso/TrueLayer.git",
 	"author": "Saverio Grisorio",
 	"license": "MIT",
 	"devDependencies": {
